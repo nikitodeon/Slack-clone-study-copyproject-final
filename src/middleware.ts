@@ -5,7 +5,7 @@ import {
   nextjsMiddlewareRedirect,
 } from "@convex-dev/auth/nextjs/server";
 
-const isPublicPage = createRouteMatcher(["/signin"]);
+const isPublicPage = createRouteMatcher(["/auth"]);
 
 export default convexAuthNextjsMiddleware(async (request) => {
   const isAuthenticated = await isAuthenticatedNextjs();
@@ -13,9 +13,17 @@ export default convexAuthNextjsMiddleware(async (request) => {
   if (!isPublicPage(request) && !isAuthenticated) {
     return new Response(null, {
       status: 307,
-      headers: { Location: new URL("/signin", request.url).toString() },
+      headers: { Location: new URL("/auth", request.url).toString() },
     });
   }
+  //////////////////////
+  if (isPublicPage(request) && isAuthenticated) {
+    return new Response(null, {
+      status: 307,
+      headers: { Location: new URL("/", request.url).toString() },
+    });
+  }
+  ///////////////
 });
 export const config = {
   // The following matcher runs middleware on all routes
