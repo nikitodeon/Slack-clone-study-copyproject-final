@@ -1,6 +1,11 @@
 import { useCurrentMember } from "@/features/members/api/use-current-member";
 import { useGetWorkspace } from "@/features/workspaces/api/use-get-workspace";
+import { useGetMembers } from "@/features/members/api/use-get-members";
+import { useGetChannels } from "@/features/channels/api/use-get-channels";
+import { useCreateChannelModal } from "@/features/channels/store/use-create-channel-modal";
+
 import { useWorkspaceId } from "@/hooks/use-workspace-id";
+
 import {
   AlertTriangle,
   HashIcon,
@@ -8,13 +13,17 @@ import {
   MessageSquareText,
   SendHorizontal,
 } from "lucide-react";
+
 import { WorkspaceHeader } from "./workspace-header";
 import { SidebarItem } from "./sidebar-item";
-import { useGetChannels } from "@/features/channels/api/use-get-channels";
 import { WorkspaceSection } from "./workspace-section";
+import { UserItem } from "./user-item";
 
 export const WorkspaceSidebar = () => {
+  const [] = useCreateChannelModal();
   const workspaceId = useWorkspaceId();
+
+  const [_open, setOpen] = useCreateChannelModal();
 
   const { data: member, isLoading: memberLoading } = useCurrentMember({
     workspaceId,
@@ -23,6 +32,9 @@ export const WorkspaceSidebar = () => {
     id: workspaceId,
   });
   const { data: channels, isLoading: channelsLoading } = useGetChannels({
+    workspaceId,
+  });
+  const { data: members, isLoading: membersLoading } = useGetMembers({
     workspaceId,
   });
 
@@ -56,9 +68,7 @@ export const WorkspaceSidebar = () => {
       <WorkspaceSection
         label="Channels"
         hint="New channel"
-        onNew={
-          /*member.role === "admin" ? () => setOpen(true) : undefined*/ () => {}
-        }
+        onNew={member.role === "admin" ? () => setOpen(true) : undefined}
       >
         {channels?.map((item) => (
           <SidebarItem
@@ -71,11 +81,10 @@ export const WorkspaceSidebar = () => {
         ))}
       </WorkspaceSection>
 
-      {/*
       <WorkspaceSection
         label="Direct Messages"
         hint="New direct message"
-        // onNew={() => {}}
+        onNew={() => {}}
       >
         {members?.map((item) => (
           <UserItem
@@ -83,10 +92,10 @@ export const WorkspaceSidebar = () => {
             id={item._id}
             label={item.user.name}
             image={item.user.image}
-            variant={item._id === memberId ? "active" : "default"}
+            // variant={item._id === memberId ? "active" : "default"}
           />
         ))}
-      </WorkspaceSection> */}
+      </WorkspaceSection>
     </div>
   );
 };
