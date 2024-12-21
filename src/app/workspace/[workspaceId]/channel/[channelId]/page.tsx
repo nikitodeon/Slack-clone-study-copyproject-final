@@ -2,7 +2,7 @@
 import { Loader, TriangleAlert } from "lucide-react";
 
 import { Header } from "./header";
-// import { ChatInput } from "./chat-input";
+import { ChatInput } from "./chat-input";
 
 import { useChannelId } from "@/hooks/use-channel-id";
 
@@ -48,8 +48,8 @@ const ChannelIdPage = () => {
         loadMore={loadMore}
         isLoadingMore={status === "LoadingMore"}
         canLoadMore={status === "CanLoadMore"}
-      />
-      <ChatInput placeholder={`Message # ${channel.name}`} /> */}
+      /> */}
+      <ChatInput placeholder={`Message # ${channel.name}`} />
     </div>
   );
 };
