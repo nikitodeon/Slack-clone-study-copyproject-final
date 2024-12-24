@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils";
 
 import { Hint } from "./hint";
 import { Button } from "./ui/button";
- import { EmojiPopover } from "./emoji-popover";
+import { EmojiPopover } from "./emoji-popover";
 
 type EditorValue = {
   image: File | null;
@@ -150,10 +150,10 @@ const Editor = ({
     }
   };
 
-  const onEmojiSelect = (emoji: any) => {
+  const onEmojiSelect = (emojiValue: string) => {
     const quill = quillRef.current;
 
-    quill?.insertText(quill?.getSelection()?.index || 0, emoji.native);
+    quill?.insertText(quill?.getSelection()?.index || 0, emojiValue);
   };
 
   const isEmpty = !image && text.replace(/<(.|\n)*?>/g, "").trim().length === 0;
@@ -210,11 +210,11 @@ const Editor = ({
               <PiTextAa className="size-4" />
             </Button>
           </Hint>
-           <EmojiPopover onEmojiSelect={onEmojiSelect}>
+          <EmojiPopover onEmojiSelect={onEmojiSelect}>
             <Button disabled={disabled} size="icon" variant="ghost">
               <Smile className="size-4" />
             </Button>
-          </EmojiPopover> 
+          </EmojiPopover>
           {variant === "create" && (
             <Hint label="Image">
               <Button

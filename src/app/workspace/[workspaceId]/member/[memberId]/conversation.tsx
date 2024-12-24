@@ -7,7 +7,7 @@ import { useGetMember } from "@/features/members/api/use-get-member";
 import { useGetMessages } from "@/features/messages/api/use-get-messages";
 
 import { Header } from "./header";
-// import { ChatInput } from "./chat-input";
+import { ChatInput } from "./chat-input";
 import { Id } from "../../../../../../convex/_generated/dataModel";
 
 interface ConversationProps {
@@ -39,25 +39,22 @@ export const Conversation = ({ id }: ConversationProps) => {
       <Header
         memberName={member?.user.name}
         memberImage={member?.user.image}
-        onClick={
-          () => {}
-          // () => onOpenProfile(memberId)
-        }
+        onClick={() => onOpenProfile(memberId)}
       />
 
-      {/* <MessageList
+      <MessageList
         data={results}
         variant="conversation"
-         memberImage={member?.user.image}
+        memberImage={member?.user.image}
         memberName={member?.user.name}
         loadMore={loadMore}
         isLoadingMore={status === "LoadingMore"}
         canLoadMore={status === "CanLoadMore"}
-      /> */}
-      {/* <ChatInput
+      />
+      <ChatInput
         placeholder={`Message ${member?.user.name}`}
         conversationId={id}
-      /> */}
+      />
     </div>
   );
 };
