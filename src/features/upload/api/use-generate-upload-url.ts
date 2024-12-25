@@ -13,10 +13,11 @@ type Options = {
 };
 
 export const useGenerateUploadUrl = () => {
-
   const [data, setData] = useState<ResponseType>(null);
   const [error, setError] = useState<Error | null>(null);
-  const [status, setStatus] = useState<"success" | "error" | "settled" | "pending" | null>(null);
+  const [status, setStatus] = useState<
+    "success" | "error" | "settled" | "pending" | null
+  >(null);
 
   const isPending = useMemo(() => status === "pending", [status]);
   const isSuccess = useMemo(() => status === "success", [status]);
@@ -25,29 +26,30 @@ export const useGenerateUploadUrl = () => {
 
   const mutation = useMutation(api.upload.generateUploadUrl);
 
-  const mutate = useCallback(async (_values: {}, options?: Options) => {
-    try {
+  const mutate = useCallback(
+    async (options?: Options) => {
+      try {
+        setData(null);
+        setError(null);
+        setStatus("pending");
 
-      setData(null);
-      setError(null);
-      setStatus("pending");
+        const response = await mutation();
+        options?.onSuccess?.(response);
+        return response;
+      } catch (error) {
+        setStatus("error");
+        options?.onError?.(error as Error);
 
-      const response = await mutation();
-      options?.onSuccess?.(response);
-      return response;
-    } catch (error) {
-      setStatus("error");
-      options?.onError?.(error as Error);
-
-      if (options?.throwError) {
-        throw error;
+        if (options?.throwError) {
+          throw error;
+        }
+      } finally {
+        setStatus("settled");
+        options?.onSettled?.();
       }
-
-    } finally {
-      setStatus("settled");
-      options?.onSettled?.();
-    }
-  }, [mutation]);
+    },
+    [mutation]
+  );
 
   return { mutate, data, error, isPending, isSuccess, isError, isSettled };
-}
+};
