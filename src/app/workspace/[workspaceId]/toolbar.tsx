@@ -63,7 +63,7 @@ export const Toolbar = () => {
               boxShadow: "none", // Убираем лишнюю тень
             }}
           />
-          {/* <CommandInput placeholder="Search..." /> */}
+
           <CommandList>
             <CommandEmpty> No results found.</CommandEmpty>
             <CommandGroup heading="Channels">
