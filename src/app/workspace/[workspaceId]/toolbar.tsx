@@ -53,32 +53,45 @@ export const Toolbar = () => {
         </Button>
 
         <CommandDialog open={open} onOpenChange={setOpen}>
-          <CommandInput
-          // placeholder="Search..."
+          <input
+            type="text"
+            placeholder="Search..."
+            className="p-2 w-full border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-accent-500"
+            style={{
+              borderColor: "transparent",
+              backgroundColor: "#f5f5f5",
+              boxShadow: "none",
+            }}
           />
           <CommandList>
-            <CommandEmpty> No results found.</CommandEmpty>
-            <CommandGroup heading="Channels">
-              {channels?.map((channel) => (
-                <CommandItem
-                  key={channel._id}
-                  onSelect={() => onChannelClick(channel._id)}
-                >
-                  {channel.name}
-                </CommandItem>
-              ))}
-            </CommandGroup>
-            <CommandSeparator />
-            <CommandGroup heading="Members">
-              {members?.map((member) => (
-                <CommandItem
-                  key={member._id}
-                  onSelect={() => onMemberClick(member._id)}
-                >
-                  {member.user.name}
-                </CommandItem>
-              ))}
-            </CommandGroup>
+            <CommandEmpty>No results found.</CommandEmpty>
+            {channels && channels.length > 0 && (
+              <CommandGroup heading="Channels">
+                {channels.map((channel) => (
+                  <CommandItem
+                    key={channel._id}
+                    onSelect={() => onChannelClick(channel._id)}
+                  >
+                    {channel.name}
+                  </CommandItem>
+                ))}
+              </CommandGroup>
+            )}
+            {members && members.length > 0 && (
+              <>
+                <CommandSeparator />
+                <CommandGroup heading="Members">
+                  {members.map((member) => (
+                    <CommandItem
+                      key={member._id}
+                      onSelect={() => onMemberClick(member._id)}
+                    >
+                      {member.user.name}
+                    </CommandItem>
+                  ))}
+                </CommandGroup>
+              </>
+            )}
           </CommandList>
         </CommandDialog>
       </div>
