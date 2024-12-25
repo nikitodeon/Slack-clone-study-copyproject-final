@@ -30,6 +30,7 @@ export const SignUpCard = ({ setState }: SignUpCardProps) => {
   const [pending, setPending] = useState(false);
 
   const onPassworsSignUp = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
     if (password !== confirmPassword) {
       setError("Passwords do not match");
       return;
