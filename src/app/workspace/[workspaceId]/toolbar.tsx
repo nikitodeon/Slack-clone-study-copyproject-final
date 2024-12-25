@@ -53,7 +53,17 @@ export const Toolbar = () => {
         </Button>
 
         <CommandDialog open={open} onOpenChange={setOpen}>
-          <CommandInput placeholder="Search..." />
+          <input
+            type="text"
+            placeholder="Search..."
+            className="p-2 w-full border border-transparent rounded-md focus:outline-none focus:ring-2 focus:ring-accent-500"
+            style={{
+              borderColor: "transparent", // Убираем дефолтные черные границы
+              backgroundColor: "#f5f5f5", // Устанавливаем фон
+              boxShadow: "none", // Убираем лишнюю тень
+            }}
+          />
+          {/* <CommandInput placeholder="Search..." /> */}
           <CommandList>
             <CommandEmpty> No results found.</CommandEmpty>
             <CommandGroup heading="Channels">
